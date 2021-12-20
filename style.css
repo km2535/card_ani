@@ -1,0 +1,166 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  /* body 태그의 전체 속성을 설정함. */
+  display: flex;
+  /* 내용들을 중앙 정렬한다. */
+  justify-content: center;
+  align-items: center;
+  /* 뷰포트 만큼 크기를 확장함. */
+  min-height: 100vh;
+  background: #2e557c;
+  transition: 0.5s;
+}
+/* doby태그 위에 배경으로 만들 꺼라 before 가상 선택자를 만들었다. */
+body::before {
+  /* 내용을 비우고 */
+  content: "";
+  /* 위치를 지정한 다음 */
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* 크기를 고정시키고 */
+  width: 100%;
+  height: 100%;
+  /* 배경색을 설정하여 */
+  background: #30bfa5;
+  /* 배경을 자르며, 원형에 원의 크기, 위치를 말한다. */
+  clip-path: circle(250px at center);
+  transition: 0.5s;
+  /* 항상 내용들의 밑에 있어야 되기때문에 음수로 적용 */
+  z-index: -1;
+}
+.container {
+  /* 위치를 지정하고  */
+  position: relative;
+  /* 카드가 들어갈 크기를 지정한다.  */
+  width: 1100px;
+  height: 400px;
+}
+/* 카드를 만드는 스타일 */
+.container .card {
+  /* 위치를 고정시키고  */
+  position: absolute;
+  /* 중앙에서 200px 아래로 설정하기 위해 calc를 사용 */
+  top: calc(50% - 200px);
+  /* 왼쪽에서부터 중앙임. */
+  left: 50%;
+  /* 너비 */
+  width: 300px;
+  /* 높이 */
+  height: 400px;
+  /* 카드 색상 설정 */
+  background: #fff;
+  /* 모서리를 깍는다. */
+  border-radius: 10px;
+  /* 변형 : X축으로 -50% 이동(좌), Y축으로 calc 값만큼 이동, -50px, 0, 50px 이 된다.  , 40도 만큼 돌리고 skew로 비스듬하게 div를 돌린다. skew는 x, y축 기준으로 돌리는 것이다. , 0.6배 만큼 작게 만든다.  */
+  transform: translateX(-50%) translateY(calc(50px * var(--i))) rotate(40deg)
+    skew(-20deg, -20deg) scale(0.6);
+  /* 그림자를 주어 카드를 강조한다. */
+  box-shadow: 25px 25px 100px rgba(0, 0, 0, 0.2);
+  /* 카드의 배치 순서를 설정한다.  */
+  z-index: calc(-1 * var(--i));
+  transition: 0.5s;
+  /* 각 카드들을 flex로 정렬한다. */
+  display: flex;
+  /* 중앙정렬 */
+  justify-content: center;
+  align-items: center;
+}
+.container .card:nth-child(2) {
+  /* 2번째 카드의 투명도 */
+  opacity: 0.8;
+}
+.container .card:nth-child(3) {
+  /* 3번째 카드의 투명도 더 연하게 */
+  opacity: 0.6;
+}
+/* 카드에 마우스를 올리면 변화하는 값을 설정 */
+.container:hover .card {
+  /* 위치를 절대값으로 */
+  position: absolute;
+  /* 각 카드들이 중앙 오도록 설정 */
+  top: 50%;
+  left: 50%;
+  /* 배치는 동일하게 */
+  z-index: 1;
+  /* 투명도는 없이 */
+  opacity: 1;
+  /* 변형 : X축으로 -50% + 350px 부터, -50% + 0, -50% + 350px, 로 위치  Y축으로 -50% rotate, skew 원본, scale 원래데로*/
+  transform: translateX(calc(-50% + calc(350px * var(--i)))) translateY(-50%)
+    rotate(0deg) skew(0deg, 0deg) scale(1);
+}
+/* 내용들을 나타낸다. */
+.container .card .content {
+  position: relative;
+  /* 카드 안쪽으로 글자 배치 */
+  padding: 25px;
+  /* 글자 색 */
+  color: #333;
+  /* 평소에는 안보이게 설정 */
+  opacity: 0;
+  /* 아래에서 위(50px -> 0px) */
+  transform: translateY(50px);
+  transition: 0.5s;
+}
+.container:hover .card .content {
+  /* 마우스를 올리면 다음과 같이 설정한다. */
+  opacity: 1;
+  /* 지연 시간을 설정함. 0.2, 0.4, 0.6s 가 됨.  */
+  transition-delay: calc(0.2s * var(--j));
+  /* 50px -> 0px 아래에서 위로 올라오는 애니메이션 */
+  transform: translateY(0px);
+}
+/* 반응형으로 991px 화면 아래로 적용한다.  */
+@media (max-width: 991px) {
+  /* 원을 없애고  */
+  body::before {
+    clip-path: circle(0px at center);
+  }
+  /* container를 설정 */
+  .container {
+    /* 너비 값 */
+    width: 100%;
+    /* 높이는 기본값으로 설정 */
+    height: initial;
+    /* padding을 주어 안쪽으로 카드를 배치 */
+    padding: 20px;
+    /* 카드에 flex 배치를 적용하고 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* wrap을 주어 카드를 배치할때 넘어가면 아래로 배치하도록 한다.  */
+    flex-wrap: wrap;
+  }
+  .container:hover .card {
+    /* 위치를 상대적으로 설정 */
+    position: relative;
+    /* 높이 좌측, 변형은 기본값 */
+    top: initial;
+    left: initial;
+    transform: initial;
+    /* 마진을 20px 하여 서로 떨어지도록 한다. */
+    margin: 20px;
+    /* 투명도는 모두 없앤다. */
+    opacity: 1 !important;
+  }
+  .container:hover,
+  .container:hover .card {
+    /* 위의 설정과 동일. content까지 설정하게 됨 */
+    position: relative;
+    top: initial;
+    left: initial;
+    transform: initial;
+  }
+  .container .card .content {
+    /* 글자들을 월래 보이도록 한다. */
+    opacity: 1;
+  }
+}
